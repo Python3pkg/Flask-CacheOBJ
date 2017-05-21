@@ -96,7 +96,7 @@ class RedisClient(object):
 
     def mset(self, **kw):
         return self._client.mset({
-            self._make_key(key): value for key, value in kw.iteritems()
+            self._make_key(key): value for key, value in kw.items()
         })
 
 

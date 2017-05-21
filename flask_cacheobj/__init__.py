@@ -9,7 +9,7 @@ Flask-CacheOBJ Extension
 :license: MIT, see LICENSE for more details.
 """
 
-from __future__ import absolute_import
+
 
 from .api import CacheOBJ
 FlaskCacheOBJ = CacheOBJ

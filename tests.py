@@ -51,7 +51,7 @@ def test_cache_obj(cache):
 def test_cache_list(cache):
     @cache.list({'key': 'test_cache_list:{id}', 'expire': 1})
     def get(id):
-        return range(id)
+        return list(range(id))
     assert get.cache_key_reg
     assert not cache.mc.smembers('test_cache_list:1')
     assert get(1)

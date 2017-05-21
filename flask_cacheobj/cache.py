@@ -22,18 +22,19 @@ from .format import format_key_pattern
 from .proxy import mc
 from .utils import make_deco
 from ._compat import text_type, integer_types
+import collections
 
 logger = logging.getLogger('flask.cache')
 
 def gen_key_factory(key_pattern, arg_names, defaults):
-    args = dict(zip(arg_names[-len(defaults):], defaults)) if defaults else {}
-    if callable(key_pattern):
+    args = dict(list(zip(arg_names[-len(defaults):], defaults))) if defaults else {}
+    if isinstance(key_pattern, collections.Callable):
         names = inspect.getargspec(key_pattern)[0]
     def gen_key(*a, **kw):
         aa = args.copy()
-        aa.update(zip(arg_names, a))
+        aa.update(list(zip(arg_names, a)))
         aa.update(kw)
-        if callable(key_pattern):
+        if isinstance(key_pattern, collections.Callable):
             key = key_pattern(*[aa[n] for n in names])
         else:
             key = format_key_pattern(key_pattern, *[aa[n] for n in arg_names], **aa)
@@ -236,7 +237,7 @@ def cache_list(cache_key_reg, packer=str, unpacker=int):
             r = f(*a, **kw)
             if r:
                 mc.delete(key)
-                mc.sadd(key, *map(packer, r))
+                mc.sadd(key, *list(map(packer, r)))
         else:
             logger.info('Cache read - %s', key)
 

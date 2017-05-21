@@ -5,7 +5,7 @@ from decorator import decorate
 
 def make_deco(deco, **kwargs):
     def decorater(f):
-        for key, value in kwargs.items():
+        for key, value in list(kwargs.items()):
             setattr(f, key, value)
         return decorate(f, deco)
     return decorater

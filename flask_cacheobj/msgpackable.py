@@ -65,9 +65,7 @@ class _Msgpackable(object):
         return cls(**kw)
 
 
-class Msgpackable(_Msgpackable):
-    __metaclass__ = MsgpackableMeta
-
+class Msgpackable(_Msgpackable, metaclass=MsgpackableMeta):
     _msgpack_abstract_class = True
 
 
@@ -102,7 +100,7 @@ def msgpackify(cls,
     return new_cls
 
 def get_registerd_msgpackables():
-    return _msgpackable_registry.items()
+    return list(_msgpackable_registry.items())
 
 def _unregister_class(cls):
     if cls._msgpack_key in _msgpackable_registry:
